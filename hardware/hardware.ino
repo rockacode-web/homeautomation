@@ -44,7 +44,7 @@ const char* ssid     = "Galaxy A15 4257";
 const char* password = "12345876";
 
 // *** IMPORTANT: Replace with the actual IP of the PC running your backend ***
-#define BACKEND_IP "192.168.1.100"
+#define BACKEND_IP "10.77.247.87"
 
 // BUTTONS + POT
 #define BTN1     25
