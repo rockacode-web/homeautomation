@@ -1,79 +1,52 @@
-  <template>
-         <VToolbar flat density="compact" color="surface" height="100" >
-            <VContainer fluid>
-                    <VRow align="center" justify="center">
-                        <VCol cols="1" align="left" >
-                             
-                        </VCol>
+<template>
+  <VToolbar flat density="comfortable" color="surface" class="nav-toolbar">
+    <VContainer fluid>
+      <VRow align="center" justify="center">
+        <VCol cols="1" />
 
-                        <VCol cols="10"  align="center"   > 
+        <VCol cols="10" class="text-center">
+          <RouterLink v-for="item in links" :key="item.name" class="route" :to="{ name: item.name }">
+            <VBtn
+              class="text-caption font-weight-medium"
+              density="compact"
+              size="small"
+              color="primary"
+              :variant="route.name === item.name ? 'tonal' : 'text'"
+            >
+              {{ item.label }}
+            </VBtn>
+          </RouterLink>
+        </VCol>
 
-                            <RouterLink class="route" :to="{ name: 'Home' }" >
-                                <VBtn class="text-subtitle-2"   density="compact"  color="primary" :variant="(route.name == 'Home')? 'tonal':'text'">Home</VBtn>
-                            </RouterLink>
+        <VCol cols="1" class="text-right">
+          <VIcon icon="mdi-star-four-points" size="16" />
+        </VCol>
+      </VRow>
+    </VContainer>
+  </VToolbar>
+</template>
 
-                            <!-- Add Links Below --> 
+<script setup>
+import { useRoute } from 'vue-router'
 
-                        </VCol>
-                        <VCol cols="1" align="right">
-                            <VBtn size="x-small" :elevation="0"  icon @click="darkmode = !darkmode">                  
-                                <VIcon v-if="darkmode" icon="mdi:mdi-weather-night"   ></VIcon>
-                                <VIcon v-else  icon="mdi:mdi-white-balance-sunny"  ></VIcon>
-                            </VBtn>
-                        </VCol>
-                    </VRow>
-                </VContainer>
-            </VToolbar>
-  </template>
+const route = useRoute()
 
-  
-  <script setup>
-    import { useRoute,useRouter } from "vue-router";
-    import { useTheme } from 'vuetify';  
-    import { ref ,watch ,onMounted ,onBeforeMount } from 'vue';
+const links = [
+  { name: 'Home', label: 'Home' },
+  { name: 'Control', label: 'Control' },
+  { name: 'Dashboard', label: 'Dashboard' },
+  { name: 'Analysis', label: 'Analysis' },
+]
+</script>
 
+<style scoped>
+.nav-toolbar {
+  border-bottom: 1px solid #d5d9df;
+}
 
-  
-    // VARIABLES 
-    const theme       = useTheme();
-    const darkmode    = ref(false); 
-    const router      = useRouter();  
-    const route       = useRoute();  
-
-    // WATCHERS
-    watch(darkmode,  (mode) => {
-    theme.global.name.value = mode ?  'darkMode' : 'lightMode';
-    localStorage.setItem("theme",mode ? 'darkMode' : 'lightMode');  
-    });
-
-
-    // FUNCTIONS
-    onMounted(()=>{
- 
-
-    });
-
-    onBeforeMount(()=>{
-        // SAVE THEME TO LOCALSTORAGE MAKING IT PERSIST BROWSER REFRESH
-
-        if(localStorage.getItem("theme") != null){
-            theme.global.name.value = localStorage.getItem("theme");
-            darkmode.value = theme.global.current.value.dark;
-        }
-        else{
-            localStorage.setItem("theme",theme.global.current.value.dark ? 'darkMode' : 'lightMode');
-            darkmode.value = theme.global.current.value.dark;    
-        }  
-    });
-
- 
-  </script>
-
-  <style>
-    .route {
-        text-decoration: none;
-        margin-left: 8px;
-        margin-right: 8px; 
-    }
-  </style>
+.route {
+  text-decoration: none;
+  margin: 0 8px;
+}
+</style>
   
